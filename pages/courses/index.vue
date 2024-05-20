@@ -5,7 +5,7 @@
         <div class="card mb-4">
           <!-- header -->
           <div class="card-header pb-0">
-            <h6>Danh sách tài khoản</h6>
+            <h6>Danh sách khóa học</h6>
           </div>
           <!-- body -->
           <div class="card-body px-0 pt-0 pb-0">
@@ -16,106 +16,76 @@
                     <th
                       class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                     >
-                      Tài khoản
+                      Khóa học
                     </th>
                     <th
                       class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
                     >
-                      Liên hệ
+                      Loại, Mô tả
                     </th>
                     <th
                       class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                     >
-                      Trạng thái
+                      Số lượng thành viên
                     </th>
                     <th
                       class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                     >
-                      Quyền
+                      Giá
                     </th>
                     <th class="text-secondary opacity-7"></th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  <tr v-for="item in listUser">
+                  <tr v-for="item in listCourse">
                     <td>
                       <div class="d-flex px-2 py-1">
-                        <div>
+                        <!-- <div>
                           <WebAvatar
                             :img="item.avatarUrl"
                             size="sm"
-                            border-radius="md"
+                            border-radius="lg"
                             class="me-3"
                             alt="user1"
                           />
-                        </div>
+                        </div> -->
                         <div class="d-flex flex-column justify-content-center">
                           <h6 class="mb-0 text-sm">{{ item.name }}</h6>
                           <p class="text-xs text-secondary mb-0">
-                            {{ item.userName }}
+                            {{ item.title }}
                           </p>
                         </div>
                       </div>
                     </td>
                     <td>
                       <p class="text-xs font-weight-bold mb-0">
-                        {{ item.email }}
+                        {{ item.category }}
                       </p>
                       <p class="text-xs text-secondary mb-0">
-                        {{ item._id }}
+                        {{ item.description }}
                       </p>
                     </td>
                     <td class="align-middle text-center text-sm">
-                      <WebBadge color="success" variant="gradient" size="sm"
-                        >Online</WebBadge
-                      >
+                      <WebBadge color="success" variant="gradient" size="sm">{{
+                        item.nbmembers
+                      }}</WebBadge>
                     </td>
                     <td class="align-middle text-center">
-                      <span class="text-secondary text-xs font-weight-bold">{{
-                        item.role
+                      <span class="text-primary text-l font-weight-bold">{{
+                        item.price
                       }}</span>
                     </td>
                     <td class="align-middle text-center">
-                      <div class="dropstart float-lg-center ms-auto">
-                        <a
-                          href="javascript:;"
-                          class="cursor-pointer"
-                          id="dropdownTable2"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
+                      <div
+                        class="d-flex align-items-center justify-content-center"
+                      >
+                        <button
+                          class="btn text-secondary font-weight-bold text-xs mb-0"
+                          @click="nativeAccount(item.id)"
                         >
-                          <i class="material-icons text-secondary text-sm">
-                            ...
-                          </i>
-                        </a>
-                        <ul
-                          class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5"
-                          aria-labelledby="dropdownTable2"
-                          style=""
-                        >
-                          <li>
-                            <span
-                              class="dropdown-item border-radius-md"
-                              href="javascript:;"
-                              >Set Quyền</span
-                            >
-                          </li>
-                          <li>
-                            <a
-                              class="dropdown-item border-radius-md"
-                              href="javascript:;"
-                              >Chặn tài khoản</a
-                            >
-                          </li>
-                          <li>
-                            <a
-                              class="dropdown-item border-radius-md"
-                              href="javascript:;"
-                              >Đóng tài khoản</a
-                            >
-                          </li>
-                        </ul>
+                          Sửa
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -226,23 +196,21 @@ export default {
   },
   data() {
     return {
-      listUser: [],
+      listCourse: [],
       accountuser: {},
     };
   },
   methods: {
-    ...mapActions("user", {
-      getlistUser: "getlistUser",
-      getUser: "getUser",
+    ...mapActions("course", {
+      getlistcourse: "getlistcourse",
     }),
-    nativeAccount(user_id) {
-      this.$router.push(`/users/${user_id}`);
+    nativeAccount(course_id) {
+      this.$router.push(`/courses/${course_id}`);
     },
   },
   created() {
-    this.getlistUser().then((res) => {
-      // console.log("Danh sasch taif khoan o day", res);
-      this.listUser = res;
+    this.getlistcourse().then((res) => {
+      this.listCourse = res;
     });
   },
 };

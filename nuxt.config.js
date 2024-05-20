@@ -29,14 +29,6 @@ export default {
         src: "/js/bootstrap.bundle.min.js",
         type: "text/javascript",
       },
-      {
-        src: "/js/nav-pills.js",
-        type: "text/javascript",
-      },
-      {
-        src: "/js/tooltip.js",
-        type: "text/javascript",
-      },
     ],
   },
 
@@ -48,7 +40,7 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: "~/plugins/axios.js", ssr: false }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -57,7 +49,16 @@ export default {
   buildModules: [],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+  modules: ["@nuxtjs/axios"],
+
+  env: {
+    baseUrl: process.env.BASE_URL || "http://localhost:3030",
+  },
+
+  server: {
+    port: 1903,
+    host: "localhost",
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},

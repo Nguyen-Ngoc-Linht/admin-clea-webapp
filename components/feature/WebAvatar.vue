@@ -3,7 +3,8 @@
     <img
       :src="img"
       :alt="alt"
-      :class="[getClasses(shadow, circular, borderRadius)]"
+      class="w-100 h-100"
+      :class="getClasses(shadow, circular, borderRadius)"
     />
   </div>
 </template>

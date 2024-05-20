@@ -10,7 +10,9 @@
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
-            ></div>
+            >
+              <i class="text-lg opacity-10 ni ni-shop" aria-hidden="true"></i>
+            </div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Trang chủ</span
             >
@@ -23,7 +25,7 @@
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
             >
-              <Shop />
+              <i class="text-lg opacity-10 ni ni-shop" aria-hidden="true"></i>
             </div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Quản lý tài khoản</span
@@ -36,9 +38,7 @@
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
-            >
-              <Shop />
-            </div>
+            ></div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Quản lý khóa học</span
             >
@@ -50,9 +50,7 @@
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
-            >
-              <Shop />
-            </div>
+            ></div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Quản lý bài đăng</span
             >
@@ -64,9 +62,7 @@
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
-            >
-              <Shop />
-            </div>
+            ></div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Quản lý bài báo</span
             >
@@ -83,15 +79,13 @@
         </li>
 
         <li class="nav-item">
-          <NuxtLink class="nav-link" to="/">
+          <NuxtLink class="nav-link" to="/teacher" exact-active-class="active">
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
-            >
-              <Shop />
-            </div>
+            ></div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
-              Trang chủ</span
+              Giáo viên</span
             >
           </NuxtLink>
         </li>
@@ -101,11 +95,9 @@
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
-            >
-              <Shop />
-            </div>
+            ></div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
-              Trang chủ</span
+              Trợ giảng</span
             >
           </NuxtLink>
         </li>
@@ -115,9 +107,7 @@
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
-            >
-              <Shop />
-            </div>
+            ></div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Đăng xuất</span
             >
@@ -148,7 +138,6 @@
 
 <script>
 import SidebarCard from "@/components/common/sidebar/SidebarCard.vue";
-import Shop from "@/components/Icon/Shop.vue";
 
 export default {
   props: {

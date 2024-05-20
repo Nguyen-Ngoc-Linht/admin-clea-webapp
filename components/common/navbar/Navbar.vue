@@ -6,7 +6,7 @@
     <div class="container">
       <NuxtLink
         class="navbar-brand font-weight-bolder ms-lg-0 ms-3"
-        to="/dashboard"
+        to="/"
         v-bind="$attrs"
         :class="isBlur ? 'text-dark' : 'text-white'"
       >
@@ -33,10 +33,10 @@
       <div class="collapse navbar-collapse" id="navigation">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
-            <router-link
+            <NuxtLink
               class="nav-link d-flex align-items-center me-2 active"
               aria-current="page"
-              to="/dashboard"
+              to="/"
             >
               <i
                 class="fa fa-chart-pie opacity-6 me-1"
@@ -44,7 +44,7 @@
                 :class="isBlur ? 'text-dark' : 'text-white'"
               ></i>
               Bảng
-            </router-link>
+            </NuxtLink>
           </li>
           <li class="nav-item">
             <router-link class="nav-link me-2" to="/profile">
@@ -57,24 +57,24 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link me-2" to="/auths/signup">
+            <NuxtLink class="nav-link me-2" to="/auths/signup">
               <i
                 class="fas fa-user-circle opacity-6 me-1"
                 aria-hidden="true"
                 :class="isBlur ? 'text-dark' : 'text-white'"
               ></i>
               Đăng ký
-            </router-link>
+            </NuxtLink>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link me-2" to="/auths/signin">
+            <NuxtLink class="nav-link me-2" to="/auths/signin">
               <i
                 class="fas fa-key opacity-6 me-1"
                 aria-hidden="true"
                 :class="isBlur ? 'text-dark' : 'text-white'"
               ></i>
               Đăng nhập
-            </router-link>
+            </NuxtLink>
           </li>
         </ul>
         <ul class="navbar-nav d-lg-block d-none">

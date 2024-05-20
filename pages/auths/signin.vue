@@ -124,6 +124,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import WebSwitch from "@/components/feature/WebSwitch.vue";
 import Navbar from "~/components/common/navbar/Navbar.vue";
 export default {
@@ -140,9 +141,27 @@ export default {
     };
   },
   methods: {
+    ...mapActions("user", {
+      apiUser: "apiUser",
+    }),
+
     submitData(event) {
       event.preventDefault();
       console.log("Data", this.username, this.password);
+      let data = {
+        username: this.username,
+        password: this.password,
+      };
+      this.apiUser(data)
+        .then((res) => {
+          if (res.user._id != null) {
+            if (res.user.role === "ADMIN") {
+              this.$router.push("/");
+            } else {
+            }
+          }
+        })
+        .catch((e) => console.log(e));
     },
   },
 };

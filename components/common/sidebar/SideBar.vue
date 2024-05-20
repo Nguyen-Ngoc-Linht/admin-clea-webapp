@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="my-3 overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl"
+    class="my-1 overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl"
     id="sidenav-main"
   >
     <div class="sidenav-header">
@@ -37,3 +37,20 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+#sidenav-main {
+  max-height: 100vh;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+
+  &::-webkit-scrollbar {
+    width: 1px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #7df1f1;
+    border-radius: 8px;
+  }
+}
+</style>
