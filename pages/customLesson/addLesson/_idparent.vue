@@ -126,11 +126,7 @@
 
               <!-- Video -->
               <div v-if="tabCategory === 1" class="card-body pt-1">
-                <form
-                  action=""
-                  class="text-start"
-                  @submit.prevent="createLesson"
-                >
+                <form action="" class="text-start" @submit.prevent="addLesson">
                   <div class="row">
                     <div class="col-6">
                       <label for="">Tên bài</label>
@@ -208,6 +204,39 @@
                         />
                       </div>
                     </div>
+
+                    <div class="col-6">
+                      <label for="">Ảnh bài giảng</label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        hidden
+                        id="imageLesson"
+                        @input="changeImage"
+                      />
+                      <label
+                        for="imageLesson"
+                        class="cursor-pointer border-primary d-flex align-items-center justify-content-center position-relative"
+                        style="border-style: dotted; aspect-ratio: 6 / 3"
+                      >
+                        <img
+                          v-if="srcImage"
+                          :src="srcImage"
+                          alt="Selected Image"
+                          style="
+                            position: absolute;
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                          "
+                        />
+                        <span v-else>Ảnh ở đây nha</span>
+                      </label>
+
+                      <label for="imageLesson" class="btn btn-sm"
+                        >Tải ảnh lên</label
+                      >
+                    </div>
                   </div>
 
                   <div class="row mt-3">
@@ -244,18 +273,62 @@ export default {
       contentLesson: "",
       linkVideoLesson: "",
       chapterLesson: "",
+      image: "",
+      // Image
+      fileImage: null,
+      srcImage: "",
+      defaultChangeImage: false,
     };
   },
   methods: {
     ...mapActions("course", {
       getcourse: "getcourse",
     }),
-    createLesson() {
-      console.log(
-        this.nameLesson,
-        this.titleLesson,
-        this.contentLesson,
-        this.linkVideoLesson
+    ...mapActions("upload", {
+      uploadImage: "uploadImage",
+    }),
+    ...mapActions("lesson", {
+      createLesson: "createLesson",
+    }),
+
+    changeImage(event) {
+      const file = event.target.files[0];
+      this.fileImage = file;
+
+      if (file) {
+        this.defaultChangeImage = true;
+        console.log(this.fileImage.name, this.defaultChangeImage);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.srcImage = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+
+    async addLesson() {
+      if (this.defaultChangeImage) {
+        await this.uploadImage(this.fileImage).then((response) => {
+          this.image = this.fileImage.name;
+        });
+      }
+
+      const body = {
+        title: this.titleLesson,
+        content: this.contentLesson,
+        nameLesson: this.nameLesson,
+        order: 2,
+        nameChapter: this.chapterLesson,
+        linkVideo: this.linkVideoLesson,
+        image: this.image,
+      };
+
+      console.log(body);
+
+      this.createLesson({ body: body, course_id: this.course_id }).then(
+        (response) => {
+          console.log("Data tra ve", response);
+        }
       );
     },
     backCourse() {

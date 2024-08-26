@@ -2,15 +2,13 @@
 const formatLessons = (data) => {
   const formattedLessons = data.map((item) => ({
     id: item._id,
-    //type: item.details.lessonType != null ? item.details.lessonType : "",
     title: item.title,
     name: item.nameLesson,
     order: item.order,
-    //chapterid: item.details.chapter,
     chaptername: item.nameChapter,
     // idVideo: item.items != null ? item.items[0].details.fileUrl : "",
     linkVideo: item.details.linkVideo,
-    image: `${process.env.baseUrl}${item.details.urlimage}`,
+    image: `${process.env.baseUrl}/upload/${item.image}`,
     content: item.content,
   }));
 

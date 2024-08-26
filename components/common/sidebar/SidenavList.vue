@@ -103,6 +103,18 @@
         </li>
 
         <li class="nav-item">
+          <NuxtLink class="nav-link" to="/cai-dat" exact-active-class="active">
+            <div
+              class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
+              :class="false ? ' ms-2' : 'me-2'"
+            ></div>
+            <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
+              Cài đặt</span
+            >
+          </NuxtLink>
+        </li>
+
+        <li class="nav-item">
           <NuxtLink class="nav-link" to="/auths/signin">
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"

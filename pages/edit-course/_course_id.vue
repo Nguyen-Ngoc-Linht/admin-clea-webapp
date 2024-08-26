@@ -18,7 +18,7 @@
               class="text-weight-bolder mb-0 ms-2 me-2"
               @click="backCourse"
               style="text-decoration: none; font-style: italic"
-              >{{ course.name }}</span
+              >{{ isCreated ? "Tạo khóa học" : course.name }}</span
             >
             /
             <h5 class="ms-2 mb-0">Chỉnh sửa thông tin</h5>
@@ -44,13 +44,25 @@
                         <div class="row">
                           <div class="col-12">
                             <div
-                              class="box-image border-radius-xl overflow-hidden"
+                              class="box-image border-radius-xl overflow-hidden w-100 h-100"
                             >
                               <img
+                                v-if="linkImage != ''"
                                 :src="linkImage"
                                 alt=""
                                 class="w-100 h-100"
+                                style="aspect-ratio: 16/9"
                               />
+                              <label
+                                for=""
+                                v-else
+                                class="w-90 d-flex align-items-center justify-content-center"
+                                style="
+                                  border-style: dotted;
+                                  aspect-ratio: 6 / 3;
+                                "
+                                >Chọn ảnh của bạn</label
+                              >
                             </div>
                           </div>
                         </div>
@@ -103,8 +115,10 @@
                             ref="imageCourse"
                             id="imageCourse"
                             type="file"
+                            accept="image/*"
                             class="form-control"
                             isRequired="false"
+                            @change="previewImage"
                           />
                         </div>
                       </div>
@@ -180,7 +194,9 @@
                   <div
                     class="col-12 d-flex justify-content-flex-start align-items-center"
                   >
-                    <button type="submit" class="btn btn-primary">Lưu</button>
+                    <button type="submit" class="btn btn-primary">
+                      {{ isCreated ? "Tạo khóa học" : "Lưu" }}
+                    </button>
                   </div>
                 </div>
               </form>
@@ -209,6 +225,9 @@ export default {
       teacherName: "",
       category: "",
       isupdatecourse: true,
+      fileImage: "",
+      //
+      isCreated: false,
     };
   },
   methods: {
@@ -220,26 +239,39 @@ export default {
     backCourse() {
       this.$router.push(`/courses/${this.course_id}`);
     },
+    previewImage(event) {
+      const file = event.target.files[0];
+      this.fileImage = file;
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.linkImage = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    },
     async submitData(event) {
       event.preventDefault(); // Ngăn chặn việc reload trang khi submit form
       // Tạo đối tượng FormData
       const formData = new FormData();
       // Thêm các dữ liệu khác vào FormData
-      formData.append("name", this.name);
-      formData.append("title", this.title);
-      formData.append("teacherId", "66273b4991ee597c0f7fcace");
-      formData.append("teacherName", this.teacherName);
-      formData.append("category", this.category);
-      formData.append("course_id", this.course_id);
-      formData.append("price", this.price);
+
+      const body = {
+        name: this.name,
+        title: this.title,
+        teacherId: "66273b4991ee597c0f7fcace",
+        teacherName: this.teacherName,
+        category: this.category,
+        price: this.price,
+      };
       // Thêm file vào FormData nếu file đã được chọn
-      if (this.$refs.imageCourse.files.length > 0) {
-        const file = this.$refs.imageCourse.files[0];
-        formData.append("images", file);
-      }
+      // if (this.$refs.imageCourse.files.length > 0) {
+      //   const file = this.$refs.imageCourse.files[0];
+      //   formData.append("images", file);
+      // }
       if (this.isupdatecourse) {
         const data = {
-          formData: formData,
+          formData: body,
           course_id: this.course_id,
         };
         await this.updatecourse(data).then((response) => {
@@ -248,7 +280,7 @@ export default {
           this.$router.push(`/courses/${this.course_id}`);
         });
       } else {
-        this.createcourse(formData).then((response) => {
+        this.createcourse(body).then((response) => {
           console.log("Dữ liệu trả về", response);
         });
       }
@@ -256,18 +288,23 @@ export default {
   },
   created() {
     this.course_id = this.$route.params.course_id;
-    this.getcourse(this.course_id).then((res) => {
-      if (res) {
-        this.course = res;
-        this.linkImage = `${process.env.baseUrl}${this.course.urlImage}`;
-        this.name = res.name;
-        this.title = res.title;
-        this.teacherName = res.teacherName;
-        this.description = res.description;
-        this.price = res.price;
-        this.category = res.category;
-      }
-    });
+    if (this.course_id != null) {
+      this.getcourse(this.course_id).then((res) => {
+        if (res) {
+          this.course = res;
+          this.linkImage = `${process.env.baseUrl}${this.course.urlImage}`;
+          this.name = res.name;
+          this.title = res.title;
+          this.teacherName = res.teacherName;
+          this.description = res.description;
+          this.price = res.price;
+          this.category = res.category;
+        }
+      });
+    } else {
+      this.isCreated = true;
+      this.isupdatecourse = false;
+    }
   },
 };
 </script>

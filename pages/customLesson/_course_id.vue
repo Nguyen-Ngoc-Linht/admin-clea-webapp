@@ -43,6 +43,7 @@
           <div class="col-auto">
             <div class="avatar avatar-xl position-relative">
               <img
+                :src="course.pathFile"
                 alt="profile_image"
                 class="w-100 h-100 border-radius-lg shadow-sm"
               />
@@ -149,9 +150,13 @@
                 <div class="d-flex mt-n2">
                   <!-- Logo lesson -->
                   <div
-                    class="avatar avatar-xl bg-gradient-dark border-radius-xl p-2 mt-n4"
+                    class="avatar avatar-xl bg-gradient-dark border-radius-xl overflow-hidden mt-n4"
                   >
-                    <img src="" alt="slack_logo" />
+                    <img
+                      :src="course.pathFile"
+                      alt="slack_logo"
+                      class="w-100 h-100"
+                    />
                   </div>
                   <!-- Option -->
                   <div class="ms-auto">
@@ -173,7 +178,12 @@
                         <a class="dropdown-item" href="javascript:;"
                           >Chỉnh sửa</a
                         >
-                        <a class="dropdown-item" href="javascript:;">Xóa</a>
+                        <a
+                          class="dropdown-item"
+                          href="javascript:;"
+                          @click="onShowModal(item.id)"
+                          >Xóa</a
+                        >
                         <a class="dropdown-item" href="javascript:;"
                           >Sao chép</a
                         >
@@ -185,7 +195,7 @@
                   class="w-100 px-0 border-radius-xl overflow-hidden mt-2"
                   style="aspect-ratio: 16 / 9"
                 >
-                  <img src="" alt="" class="w-100 h-100" />
+                  <img :src="item.image" alt="" class="w-100 h-100" />
                 </div>
                 <p class="text-sm mt-3">{{ item.title }} : {{ item.name }}</p>
                 <hr class="horizontal dark" />
@@ -209,6 +219,57 @@
         </div>
       </section>
     </div>
+
+    <!-- Modal -->
+    <div
+      ref="modalShow"
+      class="modal fade"
+      id="modal-notification"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modal-notification"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-danger modal-dialog-centered modal-"
+        role="document"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title" id="modal-title-notification">
+              Bạn có chắc chắn muốn xóa bài học này
+            </h6>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="py-3 text-center">
+              <i class="ni ni-bell-55 ni-3x"></i>
+              <h4 class="text-gradient text-danger mt-4">Lưu ý!</h4>
+              <p>Bài học sau khi xóa sẽ bị mất và không thể khôi phục.</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button data-bs-dismiss="modal" type="button" class="btn btn-white">
+              Quay lại
+            </button>
+            <button
+              type="button"
+              class="btn bg-gradient-danger text-white ml-auto"
+              @click="deleteLessonCourse"
+            >
+              Xóa
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -224,6 +285,7 @@ export default {
       course: {},
       chapters: [],
       tabchapter: 0,
+      id_lesson: "",
     };
   },
   methods: {
@@ -232,6 +294,7 @@ export default {
     }),
     ...mapActions("lesson", {
       getlesson: "getlesson",
+      deleteLesson: "deleteLesson",
     }),
     backCourse() {
       this.$router.push(`/courses/${this.course_id}`);
@@ -243,12 +306,33 @@ export default {
       this.tabchapter = index;
       this.chapters[index].isVisible = !this.chapters[index].isVisible;
     },
+
+    onShowModal(idLesson) {
+      // console.log(idLesson);
+      this.id_lesson = idLesson;
+      this.myModal.show();
+    },
+
+    deleteLessonCourse() {
+      this.deleteLesson(this.id_lesson).then((response) => {
+        if (response) {
+          this.myModal.hide();
+        } else {
+          alert("Xóa bài học thất bại");
+          this.myModal.hide();
+        }
+      });
+    },
+  },
+  mounted() {
+    this.myModal = bootstrap.Modal.getOrCreateInstance(this.$refs.modalShow);
   },
   created() {
     this.course_id = this.$route.params.course_id;
     this.getcourse(this.course_id).then((res) => {
       if (res) {
         this.course = res;
+        this.course.pathFile = `${process.env.baseUrl}${res.urlImage}`;
       }
     });
 

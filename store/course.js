@@ -36,7 +36,7 @@ const actions = {
       const token = localStorage.getItem("token");
 
       let { data } = await this.$axios.post(
-        "http://localhost:3030/posts",
+        `${COURSEAPI.GETCOURSE}`,
         formData,
         {
           headers: {

@@ -4,11 +4,17 @@
       <div class="col-12">
         <div class="card mb-4">
           <!-- header -->
-          <div class="card-header pb-0">
-            <h6>Danh sách khóa học</h6>
+          <div class="card-header pb-0 d-flex justify-content-between">
+            <h6 class="mb-0">Danh sách khóa học</h6>
+            <button
+              class="btn bg-gradient-primary mb-0"
+              @click="createdCourse()"
+            >
+              Thêm khóa học
+            </button>
           </div>
           <!-- body -->
-          <div class="card-body px-0 pt-0 pb-0">
+          <div class="card-body px-0 pt-0 pb-0 mt-2">
             <div class="table-responsive p-0">
               <table class="table align-items-center mb-0">
                 <thead>
@@ -206,6 +212,9 @@ export default {
     }),
     nativeAccount(course_id) {
       this.$router.push(`/courses/${course_id}`);
+    },
+    createdCourse() {
+      this.$router.push(`/edit-course`);
     },
   },
   created() {
