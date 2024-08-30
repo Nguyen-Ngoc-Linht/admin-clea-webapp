@@ -1,5 +1,6 @@
 import { CONSTANTS } from "../utils/constant";
 import { COURSEAPI } from "@/api/course";
+import {getAccessToken} from "~/utils/cookieAuthen";
 
 const SET_LIST_COURSE = "SET_LIST_COURSE";
 
@@ -33,7 +34,7 @@ const actions = {
 
   async createcourse({ commit, state }, formData) {
     try {
-      const token = localStorage.getItem("token");
+      const token = getAccessToken();
 
       let { data } = await this.$axios.post(
         `${COURSEAPI.GETCOURSE}`,
@@ -69,7 +70,7 @@ const actions = {
 
   async updatecourse({ commit, state }, { formData, course_id }) {
     try {
-      const token = localStorage.getItem("token");
+      const token = getAccessToken();
 
       let { data } = await this.$axios.post(
         `${COURSEAPI.GETCOURSE}/course-item/${course_id}`,

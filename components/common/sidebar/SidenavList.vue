@@ -11,7 +11,7 @@
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
             >
-              <i class="text-lg opacity-10 ni ni-shop" aria-hidden="true"></i>
+              <i class="text-sm opacity-10 ni ni-shop text-secondary" aria-hidden="true"></i>
             </div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Trang chủ</span
@@ -19,13 +19,16 @@
           </NuxtLink>
         </li>
 
-        <li class="nav-item">
+        <li v-if="userRole === 'ADMIN'" class="nav-item">
           <NuxtLink class="nav-link" to="/users" exact-active-class="active">
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
             >
-              <i class="text-lg opacity-10 ni ni-shop" aria-hidden="true"></i>
+              <i
+                class="ni ni-circle-08 text-sm opacity-10 text-secondary"
+                aria-hidden="true"
+              ></i>
             </div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Quản lý tài khoản</span
@@ -33,36 +36,51 @@
           </NuxtLink>
         </li>
 
-        <li class="nav-item">
+        <li v-if="userRole === 'ADMIN' || userRole === 'TEACHER'" class="nav-item">
           <NuxtLink class="nav-link" to="/courses" exact-active-class="active">
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
-            ></div>
+            >
+              <i
+                class="ni ni-bag-17 text-sm opacity-10 text-secondary"
+                aria-hidden="true"
+              ></i>
+            </div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Quản lý khóa học</span
             >
           </NuxtLink>
         </li>
 
-        <li class="nav-item">
-          <NuxtLink class="nav-link" to="/posts" exact-active-class="active">
+        <li v-if="userRole === 'ADMIN'" class="nav-item">
+          <NuxtLink class="nav-link" to="/bai-dang" exact-active-class="active">
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
-            ></div>
+            >
+              <i
+                class="ni ni-single-copy-04 text-sm opacity-10 text-secondary"
+                aria-hidden="true"
+              ></i>
+            </div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Quản lý bài đăng</span
             >
           </NuxtLink>
         </li>
 
-        <li class="nav-item">
-          <NuxtLink class="nav-link" to="/blogs" exact-active-class="active">
+        <li v-if="userRole === 'ADMIN'" class="nav-item">
+          <NuxtLink class="nav-link" to="/bai-bao" exact-active-class="active">
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
-            ></div>
+            >
+              <i
+                class="ni ni-paper-diploma text-sm opacity-10 text-secondary"
+                aria-hidden="true"
+              ></i>
+            </div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Quản lý bài báo</span
             >
@@ -78,36 +96,51 @@
           </h6>
         </li>
 
-        <li class="nav-item">
-          <NuxtLink class="nav-link" to="/teacher" exact-active-class="active">
+        <li v-if="userRole === 'TEACHER'" class="nav-item">
+          <NuxtLink class="nav-link" to="/giao-vien" exact-active-class="active">
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
-            ></div>
+            >
+              <i
+                class="ni ni-single-02 text-sm opacity-10 text-secondary"
+                aria-hidden="true"
+              ></i>
+            </div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Giáo viên</span
             >
           </NuxtLink>
         </li>
 
-        <li class="nav-item">
-          <NuxtLink class="nav-link" to="/">
+        <li v-if="userRole === 'ADMIN'" class="nav-item">
+          <NuxtLink class="nav-link" to="/tro-giang" exact-active-class="active">
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
-            ></div>
+            >
+              <i
+                class="ni ni-badge text-sm opacity-10 text-secondary"
+                aria-hidden="true"
+              ></i>
+            </div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Trợ giảng</span
             >
           </NuxtLink>
         </li>
 
-        <li class="nav-item">
+        <li v-if="userRole === 'ADMIN'" class="nav-item">
           <NuxtLink class="nav-link" to="/cai-dat" exact-active-class="active">
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
-            ></div>
+            >
+              <i
+                class="ni ni-settings-gear-65 text-sm opacity-10 text-secondary"
+                aria-hidden="true"
+              ></i>
+            </div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Cài đặt</span
             >
@@ -115,15 +148,20 @@
         </li>
 
         <li class="nav-item">
-          <NuxtLink class="nav-link" to="/auths/signin">
+          <div class="nav-link" @click="logoutAccount()">
             <div
               class="text-center bg-white shadow icon icon-shape icon-sm border-radius-md d-flex align-items-center justify-content-center"
               :class="false ? ' ms-2' : 'me-2'"
-            ></div>
+            >
+              <i
+                class="ni ni-button-power text-sm opacity-10 text-secondary"
+                aria-hidden="true"
+              ></i>
+            </div>
             <span class="nav-link-text" :class="false ? ' me-1' : 'ms-1'">
               Đăng xuất</span
             >
-          </NuxtLink>
+          </div>
         </li>
       </ul>
     </div>
@@ -150,6 +188,8 @@
 
 <script>
 import SidebarCard from "@/components/common/sidebar/SidebarCard.vue";
+import {mapActions} from "vuex";
+import {getUserInfo} from "@/utils/cookieAuthen";
 
 export default {
   props: {
@@ -160,10 +200,50 @@ export default {
       title: "Soft UI Dashboard PRO",
       controls: "dashboardsExamples",
       isActive: "active",
+      userRole: "",
     };
   },
   components: {
     SidebarCard,
   },
+  methods: {
+    ...mapActions("user", {
+      logout: "logout"
+    }),
+    logoutAccount() {
+      this.logout().then((res) => {
+        this.$router.push("/auths/signin");
+      }).catch(e => {
+        console.log(e);
+      })
+    }
+  },
+  created() {
+    const user = JSON.parse(getUserInfo());
+    this.userRole = user.role;
+  }
 };
 </script>
+
+<style scoped lang="scss">
+.navbar-nav {
+
+  .nav-item {
+
+    .nav-link {
+
+      &.active {
+        //box-shadow: 4px 2px 10px rgba(0,0,0,0.12);
+
+        i {
+          color: white !important;
+        }
+
+        .nav-link-text {
+          color: #82d616;
+        }
+      }
+    }
+  }
+}
+</style>

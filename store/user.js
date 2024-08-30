@@ -1,6 +1,7 @@
 import { CONSTANTS } from "../utils/constant";
 import { USERSAPI } from "@/api/users";
 import { AUTHSAPI } from "@/api/auths";
+import {getAccessToken, removeAccessToken, removeUserInfo, setAccessToken, setUserInfo} from "~/utils/cookieAuthen";
 
 const UPDATE_USER = "UPDATE_USER";
 const SAVE_TOKEN = "SAVE_TOKEN";
@@ -14,28 +15,22 @@ const actions = {
         password: user.password,
       });
       if (data.status === CONSTANTS.SUCCESS) {
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            id: data.data.user._id,
-            name: data.data.user.name,
-            avatar: `${process.env.baseUrl}${data.data.user.avatarUrl}`,
-            email: data.data.user.email,
-            role: data.data.user.role,
-          })
-        );
+        const user = {
+          id: data.data.user._id,
+          name: data.data.user.name,
+          avatar: `${process.env.baseUrl}${data.data.user.avatarUrl}`,
+          email: data.data.user.email,
+          role: data.data.user.role,
+        }
+        setUserInfo(user);
+        setAccessToken(data.data.token);
+
         const expirationTime = new Date();
         expirationTime.setTime(expirationTime.getTime() + 60 * 60 * 1000);
 
         localStorage.setItem("refreshToken", expirationTime.toISOString());
-
-        localStorage.setItem("token", data.data.token);
         return data.data;
       }
-      // let data = {
-      //   name: user.username,
-      //   matkhau: user.password,
-      // };
     } catch (e) {
       throw e;
     }
@@ -43,7 +38,7 @@ const actions = {
 
   async getlistUser({ commit, state }) {
     try {
-      const token = localStorage.getItem("token");
+      const token = getAccessToken();
       let { data } = await this.$axios.get(`${USERSAPI.GETLISTUSER}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -86,7 +81,7 @@ const actions = {
   async setrole({ commit, state }, { userId, role }) {
     try {
       console.log(userId, role);
-      const token = localStorage.getItem("token");
+      const token = getAccessToken();
       let { data } = await this.$axios.post(
         `${USERSAPI.SETROLE}/${userId}`,
         { role: role },
@@ -128,6 +123,17 @@ const actions = {
       console.log(err);
     }
   },
+
+  async logout({commit, state}) {
+    try {
+      removeAccessToken();
+      removeUserInfo();
+
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+  }
 };
 
 const state = () => ({

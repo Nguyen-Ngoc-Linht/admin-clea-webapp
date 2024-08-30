@@ -16,6 +16,47 @@
 // Custom Variables
 @import "soft-ui-dashboard/custom/styles";
 
+//body {
+//  font-family: "Open Sans";
+//}
+
 body {
-  font-family: "Open Sans";
+  font-family: Roboto, sans-serif;
+}
+
+:root {
+  .fc .fc-button-primary {
+    background-image: linear-gradient(310deg, #2152ff 0%, #21d4fd 100%);
+    border: transparent;
+  }
+
+  .fc .fc-button .fc-icon {
+    font-size: 1em;
+    vertical-align: middle;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.5em;
+    margin: 0px;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    z-index: 1;
+    background-image: linear-gradient(310deg, #2152ff 0%, #21d4fd 100%);
+  }
+
+  /* Đảm bảo rằng lịch vừa khung màn hình nhỏ hơn */
+  @media (max-width: 768px) {
+    .fc-dayGridMonth-view {
+      table-layout: fixed; /* Đảm bảo các ngày trong tháng có kích thước đều nhau */
+    }
+
+    .fc-col-header-cell,
+    .fc-day {
+      font-size: 0.75rem; /* Giảm kích thước chữ cho màn hình nhỏ */
+    }
+    .fc-scroller {
+      overflow: hidden !important; /* Tắt thanh cuộn bên trái */
+    }
+  }
 }

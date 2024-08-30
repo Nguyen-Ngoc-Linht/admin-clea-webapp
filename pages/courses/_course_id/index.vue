@@ -28,9 +28,9 @@
               <div class="card">
                 <div class="card-header p-3 pt-2">
                   <div
-                    class="icon icon-lg icon-shape bg-gradient-dark shadow text-center border-radius-xl mt-n4 position-absolute"
+                    class="icon icon-lg d-flex align-items-center justify-content-center bg-gradient-dark shadow text-center border-radius-xl mt-n4 position-absolute"
                   >
-                    <i class="material-icons opacity-10">paid</i>
+                    <i class="ni ni-app opacity-10 text-white" style="font-size: 28px"></i>
                   </div>
                   <div class="text-end pt-1">
                     <p class="text-sm mb-0 text-capitalize">Truy cập hôm nay</p>
@@ -79,9 +79,9 @@
               <div class="card cursor-pointer" @click="ShowInfoDetail">
                 <div class="card-header p-3 pt-2">
                   <div
-                    class="icon icon-lg icon-shape bg-gradient-dark shadow text-center border-radius-xl mt-n4 position-absolute"
+                    class="icon icon-lg d-flex justify-content-center align-items-center bg-gradient-dark shadow text-center border-radius-xl mt-n4 position-absolute"
                   >
-                    <i class="material-icons opacity-10">paid</i>
+                    <i class="ni ni-book-bookmark text-white" style="font-size: 28px"></i>
                   </div>
                   <div class="text-end pt-1">
                     <p class="text-sm mb-0 text-capitalize">
@@ -105,9 +105,9 @@
               <div class="card">
                 <div class="card-header p-3 pt-2">
                   <div
-                    class="icon icon-lg icon-shape bg-gradient-dark shadow text-center border-radius-xl mt-n4 position-absolute"
+                    class="icon icon-lg d-flex justify-content-center align-items-center bg-gradient-dark shadow text-center border-radius-xl mt-n4 position-absolute"
                   >
-                    <i class="material-icons opacity-10">paid</i>
+                    <i class="ni ni-money-coins text-white" style="font-size: 28px"></i>
                   </div>
                   <div class="text-end pt-1">
                     <p class="text-sm mb-0 text-capitalize">Today's Money</p>
@@ -132,9 +132,9 @@
               <div class="card mt-4">
                 <div class="card-header p-3 pt-2">
                   <div
-                    class="icon icon-lg icon-shape bg-gradient-info shadow text-center border-radius-xl mt-n4 float-start"
+                    class="icon icon-lg d-flex justify-content-center align-items-center bg-gradient-info shadow text-center border-radius-xl mt-n4 float-start"
                   >
-                    <i class="material-icons opacity-10">Info</i>
+                    <i class="ni ni-briefcase-24 text-white" style="font-size: 26px"></i>
                   </div>
                   <div class="row">
                     <div class="col-md-6">
@@ -151,7 +151,7 @@
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          <i class="material-icons text-secondary text-sm">
+                          <i class="material-icons text-secondary text-lg text-info text-gradient">
                             Cài đặt
                           </i>
                         </a>

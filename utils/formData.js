@@ -64,7 +64,7 @@ const formatListComments = (data) => {
 //Chuyển dữ liệu posts về đúng định dạng trả cho layout
 const formatPosts = (data) => {
   const formattedPosts = data.map((item) => ({
-    id: item._id,
+    id: item.id,
     body: item.body,
     title: item.title,
     imageLink: `${process.env.baseUrl}${item.images[0].path}`,

@@ -210,11 +210,13 @@
 
 <script>
 import { mapActions } from "vuex";
+import {getUserInfo} from "~/utils/cookieAuthen";
 
 export default {
   layout: "empty",
   data() {
     return {
+      user: {},
       course_id: "",
       course: {},
       linkImage: "",
@@ -225,9 +227,12 @@ export default {
       teacherName: "",
       category: "",
       isupdatecourse: true,
-      fileImage: "",
       //
       isCreated: false,
+      //Image
+      urlCourse: "",
+      fileImage: "",
+      changeImage: false,
     };
   },
   methods: {
@@ -236,13 +241,21 @@ export default {
       getcourse: "getcourse",
       updatecourse: "updatecourse",
     }),
+    ...mapActions("upload", {
+      uploadImage: "uploadImage",
+    }),
     backCourse() {
-      this.$router.push(`/courses/${this.course_id}`);
+      if(this.isCreated) {
+        this.$router.push(`/courses`);
+      } else {
+        this.$router.push(`/courses/${this.course_id}`);
+      }
     },
     previewImage(event) {
       const file = event.target.files[0];
       this.fileImage = file;
       if (file) {
+        this.changeImage = true;
         const reader = new FileReader();
         reader.onload = (e) => {
           this.linkImage = e.target.result;
@@ -252,24 +265,27 @@ export default {
     },
     async submitData(event) {
       event.preventDefault(); // Ngăn chặn việc reload trang khi submit form
-      // Tạo đối tượng FormData
-      const formData = new FormData();
-      // Thêm các dữ liệu khác vào FormData
 
       const body = {
         name: this.name,
         title: this.title,
-        teacherId: "66273b4991ee597c0f7fcace",
+        teacherId: "66cd3afaa52089f1590b86b1",
         teacherName: this.teacherName,
         category: this.category,
         price: this.price,
+        description: this.description,
+        createdById: this.user.id,
+        urlImage: this.urlCourse,
       };
-      // Thêm file vào FormData nếu file đã được chọn
-      // if (this.$refs.imageCourse.files.length > 0) {
-      //   const file = this.$refs.imageCourse.files[0];
-      //   formData.append("images", file);
-      // }
+
       if (this.isupdatecourse) {
+        if(this.changeImage) {
+          await this.uploadImage(this.fileImage).then((res => {
+            console.log("Ảnh đã đưa lên server", res);
+            body.urlImage = res.path;
+          }))
+        }
+
         const data = {
           formData: body,
           course_id: this.course_id,
@@ -280,17 +296,26 @@ export default {
           this.$router.push(`/courses/${this.course_id}`);
         });
       } else {
+        if(this.changeImage) {
+          await this.uploadImage(this.fileImage).then((res => {
+            console.log("Ảnh đã đưa lên server", res);
+            body.urlImage = res.path;
+          }))
+        }
         this.createcourse(body).then((response) => {
-          console.log("Dữ liệu trả về", response);
+          this.$router.push(`/courses`);
         });
       }
     },
   },
   created() {
+    this.user = JSON.parse(getUserInfo());
+
     this.course_id = this.$route.params.course_id;
     if (this.course_id != null) {
       this.getcourse(this.course_id).then((res) => {
         if (res) {
+          this.urlCourse = this.course.urlImage;
           this.course = res;
           this.linkImage = `${process.env.baseUrl}${this.course.urlImage}`;
           this.name = res.name;

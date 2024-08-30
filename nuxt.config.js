@@ -17,6 +17,10 @@ export default {
     link: [
       {
         rel: "stylesheet",
+        href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css",
+      },
+      {
+        rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap",
       },
       {
@@ -40,7 +44,11 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: "~/plugins/axios.js", ssr: false }],
+  plugins: [
+    { src: "~/plugins/axios.js", ssr: false },
+    { src: "~/plugins/chart.js", ssr: false },
+    { src: "~/plugins/global_alert.js"},
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

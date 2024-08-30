@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="my-1 overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl"
+    class="my-3 ms-4 overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl bg-white"
     id="sidenav-main"
   >
     <div class="sidenav-header">

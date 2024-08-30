@@ -47,15 +47,6 @@
                   <tr v-for="item in listCourse">
                     <td>
                       <div class="d-flex px-2 py-1">
-                        <!-- <div>
-                          <WebAvatar
-                            :img="item.avatarUrl"
-                            size="sm"
-                            border-radius="lg"
-                            class="me-3"
-                            alt="user1"
-                          />
-                        </div> -->
                         <div class="d-flex flex-column justify-content-center">
                           <h6 class="mb-0 text-sm">{{ item.name }}</h6>
                           <p class="text-xs text-secondary mb-0">

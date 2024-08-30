@@ -39,12 +39,6 @@
                     >
                       <label>Tài khoản</label>
                       <div class="">
-                        <!-- <span
-                          v-if="iconDir === 'left'"
-                          class="input-group-text"
-                        >
-                          <i :class="getIcon(icon)"></i>
-                        </span> -->
                         <input
                           v-model="username"
                           id="email"

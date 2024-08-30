@@ -16,10 +16,17 @@
             </NuxtLink>
             /
             <span
-              class="text-weight-bolder mb-0 ms-2 me-2"
+              class="text-weight-bolder mb-0 ms-2 me-2 cursor-pointer"
               style="text-decoration: none; font-style: italic"
               @click="backCourse"
               >{{ course.name }}</span
+            >
+            /
+            <span
+              class="text-weight-bolder mb-0 ms-2 me-2 cursor-pointer"
+              style="text-decoration: none; font-style: italic"
+              @click="backListLesson"
+            >Danh sách bài giảng</span
             >
             /
             <h5 class="ms-2 mb-0">Thêm bài học</h5>
@@ -86,15 +93,15 @@
               <div class="col-sm-auto col-4">
                 <div class="avatar avatar-xl position-relative">
                   <img
-                    src="../../../assets/img/bruce-mars.jpg"
+                    :src="user.avatar"
                     alt="bruce"
-                    class="w-100 rounded-circle shadow-sm"
+                    class="w-100 h-100 rounded-circle shadow-sm"
                   />
                 </div>
               </div>
               <div class="col-sm-auto col-8 my-auto">
                 <div class="h-100">
-                  <h5 class="mb-1 font-weight-bolder">Nguyễn Ngọc Linh</h5>
+                  <h5 class="mb-1 font-weight-bolder">{{ user.name }}</h5>
                   <p class="mb-0 font-weight-normal text-sm">
                     Admin / Giáo viên
                   </p>
@@ -261,11 +268,13 @@
 
 <script>
 import { mapActions } from "vuex";
+import {getUserInfo} from "@/utils/cookieAuthen";
 export default {
   layout: "empty",
   data() {
     return {
       course_id: "",
+      user: {},
       course: {},
       tabCategory: 1,
       nameLesson: "",
@@ -307,6 +316,8 @@ export default {
     },
 
     async addLesson() {
+      this.commonLoadingPage(true);
+
       if (this.defaultChangeImage) {
         await this.uploadImage(this.fileImage).then((response) => {
           this.image = this.fileImage.name;
@@ -328,14 +339,26 @@ export default {
       this.createLesson({ body: body, course_id: this.course_id }).then(
         (response) => {
           console.log("Data tra ve", response);
+          this.commonConfirmOK("Tạo bài giảng thành công!", () => {
+          })
+          this.commonLoadingPage(false);
+          this.$router.push(`/customLesson/${this.course_id}`);
         }
-      );
+      ).catch(e => {
+        this.commonConfirmError("Thêm bài học thất bại");
+        console.log(e);
+      });
     },
     backCourse() {
       this.$router.push(`/courses/${this.course_id}`);
     },
+    backListLesson() {
+      this.$router.push(`/customLesson/${this.course_id}`);
+    }
   },
   created() {
+    this.user = JSON.parse(getUserInfo());
+
     this.course_id = this.$route.query.course_id;
 
     this.getcourse(this.course_id).then((res) => {

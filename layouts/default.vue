@@ -1,9 +1,10 @@
 <template>
   <div
-    class="w-100 default-page"
+    class="w-100 default-page g-sidenav-show"
+    id="appLayout"
     style="background-color: #f8f9fa; min-height: 100vh"
   >
-    <SideBar class="fixed-start sidebar" />
+    <SideBar class="fixed-start sidebar" v-if="showSidebar"/>
     <!-- body  -->
     <main
       class="main-content position-relative max-height-vh-100 border-radius-lg"
@@ -18,6 +19,7 @@
 <script>
 import NavbarLayout from "@/components/common/navbar/NavbarLayout.vue";
 import SideBar from "@/components/common/sidebar/SideBar.vue";
+import {mapActions, mapState} from "vuex";
 export default {
   name: "IndexPage",
   data() {
@@ -27,6 +29,26 @@ export default {
     SideBar,
     NavbarLayout,
   },
+  computed: {
+    ...mapState("items", ["showSidebar"]),
+  },
+  methods: {
+    ...mapActions("items", {
+      setShowSidebar: "setShowSidebar",
+    }),
+    handleResize() {
+      if (window.innerWidth < 1024) {
+        this.setShowSidebar(false);
+      }
+    },
+  },
+  created() {
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleResize);
+  }
 };
 </script>
 

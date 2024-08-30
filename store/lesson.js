@@ -1,11 +1,12 @@
 import { CONSTANTS } from "../utils/constant";
 import { LESSONAPI } from "@/api/lesson";
-import { formatLessons } from "@/utils/formData";
+import {formatLessons, formatLessonstoChapters} from "@/utils/formData";
+import {getAccessToken} from "~/utils/cookieAuthen";
 
 const actions = {
   async getlesson({ commit, state }, course_id) {
     try {
-      const token = localStorage.getItem("token");
+      const token = getAccessToken();
       let { data } = await this.$axios.get(
         `${LESSONAPI.GETLESSON}/${course_id}`,
         {
@@ -18,6 +19,9 @@ const actions = {
       if (data.status === CONSTANTS.SUCCESS) {
         // console.log(data.data);
         const dataformat = formatLessons(data.data);
+        commit("SET_LESSONS", dataformat);
+        const chapters = formatLessonstoChapters(dataformat);
+        commit("SET_CHAPTERS", chapters);
         return dataformat;
       }
     } catch (err) {
@@ -27,7 +31,7 @@ const actions = {
 
   async getlessonitem({ commit, state }, lesson_id) {
     try {
-      const token = localStorage.getItem("token");
+      const token = getAccessToken();
       let { data } = await this.$axios.get(
         `${LESSONAPI.GETITEMLESSON}/${lesson_id}`
         // {
@@ -47,7 +51,7 @@ const actions = {
 
   async createLesson({ commit, state }, { body, course_id }) {
     try {
-      const token = localStorage.getItem("token");
+      const token = getAccessToken();
       let { data } = await this.$axios.post(
         `${LESSONAPI.CREATELESSON}/${course_id}`,
         body,
@@ -74,6 +78,9 @@ const actions = {
       );
 
       if (data.status === CONSTANTS.SUCCESS) {
+        commit("DELETE_LESSON", lesson_id);
+        const chapters = formatLessonstoChapters(state.lessons);
+        commit("SET_CHAPTERS", chapters);
         return true;
       }
     } catch (err) {
@@ -84,15 +91,34 @@ const actions = {
 
 const state = () => ({
   lessons: [],
+  chapters: [],
 });
 
 const getters = {
   lessons: (state) => {
     return state.lessons;
   },
+  chapters: (state) => {
+    return state.chapters;
+  }
 };
 
-const mutations = {};
+const mutations = {
+  SET_CHAPTERS(state, chapters) {
+    state.chapters = chapters;
+  },
+  SET_LESSONS(state, lessons) {
+    state.lessons = lessons;
+  },
+  DELETE_LESSON(state, lesson_id) {
+    const lessonIndex = state.lessons.findIndex(lesson => lesson.id === lesson_id);
+    if (lessonIndex !== -1) {
+      state.lessons.splice(lessonIndex, 1);
+    } else {
+      console.error(`Lesson with id ${idLesson} not found.`);
+    }
+  }
+};
 
 export default {
   actions,

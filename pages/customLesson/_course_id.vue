@@ -28,8 +28,7 @@
     </div>
 
     <!--  -->
-
-    <div class="container-fluid px-2 px-md-4">
+    <div class="container px-2 px-md-4">
       <div
         class="page-header min-height-300 border-radius-xl mt-4"
         style="
@@ -103,7 +102,7 @@
     </div>
 
     <!--  -->
-    <div class="container-fluild py-2 px-5">
+    <div class="container py-2 px-5">
       <section class="py-3">
         <!-- Tieue dde -->
         <div class="row mb-4 mb-md-0">
@@ -121,8 +120,8 @@
               class="btn bg-gradient-primary mb-0 mt-0 mt-md-n9 mt-lg-0"
             >
               <i
-                class="material-icons text-white position-relative text-md pe-2"
-                >add</i
+                class="ni ni-fat-add text-white position-relative text-lg pe-2"
+                ></i
               >Thêm bài học
             </button>
           </div>
@@ -133,84 +132,89 @@
         <!-- List bai hoc -->
         <div v-for="(chapter, index) in chapters" class="row mt-lg-4 mt-2">
           <div
-            class="w-100 border-radius-section card"
-            @click="handleClickChapter(index)"
+            class="w-100 btn bg-gradient-info d-flex flex-start border-radius-section"
+            :data-index="index"
+            data-bs-toggle="collapse"
+            :data-bs-target="'#chapter' + index"
+            :aria-controls="'#chapter' + index"
+            aria-expanded="false"
+            style="border-radius: 10px"
           >
-            <div class="card-body" style="font-size: 24px">
+            <span class="text-lg" style="text-transform: none">
               Chương {{ index + 1 }}: {{ chapter.chaptername }}
-            </div>
+            </span>
           </div>
-          <div
-            v-if="chapter.isVisible"
-            v-for="item in chapter.listlesson"
-            class="col-lg-4 col-md-6 mb-4 mt-5"
-          >
-            <div class="card">
-              <div class="card-body p-3">
-                <div class="d-flex mt-n2">
-                  <!-- Logo lesson -->
-                  <div
-                    class="avatar avatar-xl bg-gradient-dark border-radius-xl overflow-hidden mt-n4"
-                  >
-                    <img
-                      :src="course.pathFile"
-                      alt="slack_logo"
-                      class="w-100 h-100"
-                    />
-                  </div>
-                  <!-- Option -->
-                  <div class="ms-auto">
-                    <div class="dropdown">
-                      <button
-                        class="btn btn-link text-secondary ps-0 pe-2"
-                        id="navbarDropdownMenuLink"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        ...
-                      </button>
-                      <div
-                        class="dropdown-menu dropdown-menu-end me-sm-n4 me-n3"
-                        aria-labelledby="navbarDropdownMenuLink"
-                        style=""
-                      >
-                        <a class="dropdown-item" href="javascript:;"
+          <div class="collapse row" :id="'chapter' + index">
+            <div
+              v-for="item in chapter.listlesson"
+              class="col-xl-3 col-lg-4 col-md-6 mb-4 mt-3"
+            >
+              <div class="card">
+                <div class="card-body p-3">
+                  <div class="d-flex mt-n2">
+                    <!-- Logo lesson -->
+                    <div
+                      class="avatar avatar-lg bg-gradient-dark border-radius-xl overflow-hidden mt-n4"
+                    >
+                      <img
+                        :src="course.pathFile"
+                        alt="slack_logo"
+                        class="w-100 h-100"
+                      />
+                    </div>
+                    <!-- Option -->
+                    <div class="ms-auto">
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-link text-secondary ps-0 pe-2"
+                          id="navbarDropdownMenuLink"
+                          data-bs-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false"
+                        >
+                          ...
+                        </button>
+                        <div
+                          class="dropdown-menu dropdown-menu-end me-sm-n4 me-n3"
+                          aria-labelledby="navbarDropdownMenuLink"
+                          style=""
+                        >
+                          <a class="dropdown-item"
                           >Chỉnh sửa</a
-                        >
-                        <a
-                          class="dropdown-item"
-                          href="javascript:;"
-                          @click="onShowModal(item.id)"
+                          >
+                          <a
+                            class="dropdown-item"
+                            @click="handleDeleteLesson(item.id)"
                           >Xóa</a
-                        >
-                        <a class="dropdown-item" href="javascript:;"
-                          >Sao chép</a
-                        >
+                          >
+                          <a class="dropdown-item" href="javascript:;"
+                          >Ẩn</a
+                          >
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="w-100 px-0 border-radius-xl overflow-hidden mt-2"
-                  style="aspect-ratio: 16 / 9"
-                >
-                  <img :src="item.image" alt="" class="w-100 h-100" />
-                </div>
-                <p class="text-sm mt-3">{{ item.title }} : {{ item.name }}</p>
-                <hr class="horizontal dark" />
-                <div class="row">
-                  <div class="col-6">
-                    <h6 class="text-sm mb-0">{{ item.order }}</h6>
-                    <p class="text-secondary text-sm font-weight-normal mb-0">
-                      {{ item.content }}
-                    </p>
+                  <div
+                    class="w-100 px-0 border-radius-lg overflow-hidden mt-0"
+                    style="aspect-ratio: 16 / 9"
+                  >
+                    <img :src="item.image" alt="" class="w-100 h-100" />
                   </div>
-                  <div class="col-6 text-end">
-                    <h6 class="text-sm mb-0">02.03.22</h6>
-                    <p class="text-secondary text-sm font-weight-normal mb-0">
-                      Due date
-                    </p>
+                  <p class="text-sm mt-2 mb-1">{{ item.title }} : {{ item.name }}</p>
+                  <hr class="horizontal dark" style="margin: 4px 0" />
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 class="text-sm mb-0">{{ item.order }}</h6>
+                      <p class="text-secondary text-sm font-weight-normal mb-0">
+                        {{ item.content }}
+                      </p>
+                    </div>
+                    <div class="col-6 text-end">
+                      <h6 class="text-sm mb-0">02.03.22</h6>
+                      <p class="text-secondary text-sm font-weight-normal mb-0">
+                        Due date
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -219,63 +223,13 @@
         </div>
       </section>
     </div>
-
-    <!-- Modal -->
-    <div
-      ref="modalShow"
-      class="modal fade"
-      id="modal-notification"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="modal-notification"
-      aria-hidden="true"
-    >
-      <div
-        class="modal-dialog modal-danger modal-dialog-centered modal-"
-        role="document"
-      >
-        <div class="modal-content">
-          <div class="modal-header">
-            <h6 class="modal-title" id="modal-title-notification">
-              Bạn có chắc chắn muốn xóa bài học này
-            </h6>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="py-3 text-center">
-              <i class="ni ni-bell-55 ni-3x"></i>
-              <h4 class="text-gradient text-danger mt-4">Lưu ý!</h4>
-              <p>Bài học sau khi xóa sẽ bị mất và không thể khôi phục.</p>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button data-bs-dismiss="modal" type="button" class="btn btn-white">
-              Quay lại
-            </button>
-            <button
-              type="button"
-              class="btn bg-gradient-danger text-white ml-auto"
-              @click="deleteLessonCourse"
-            >
-              Xóa
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import {mapActions, mapState} from "vuex";
 import { formatLessonstoChapters } from "@/utils/formData";
+import Swal from "sweetalert2";
 
 export default {
   layout: "empty",
@@ -283,10 +237,12 @@ export default {
     return {
       course_id: "",
       course: {},
-      chapters: [],
       tabchapter: 0,
       id_lesson: "",
     };
+  },
+  computed: {
+    ...mapState("lesson", ["chapters"])
   },
   methods: {
     ...mapActions("course", {
@@ -302,30 +258,24 @@ export default {
     addLesson() {
       this.$router.push(`/customLesson/addLesson?course_id=${this.course_id}`);
     },
-    handleClickChapter(index) {
-      this.tabchapter = index;
-      this.chapters[index].isVisible = !this.chapters[index].isVisible;
-    },
 
-    onShowModal(idLesson) {
-      // console.log(idLesson);
-      this.id_lesson = idLesson;
-      this.myModal.show();
-    },
+    handleDeleteLesson(lessonId) {
+      this.commonConfirm("Bạn có chắc chắn xóa bài học này!", () => {
+        this.commonLoadingPage(true);
 
-    deleteLessonCourse() {
-      this.deleteLesson(this.id_lesson).then((response) => {
-        if (response) {
-          this.myModal.hide();
-        } else {
-          alert("Xóa bài học thất bại");
-          this.myModal.hide();
-        }
-      });
+        this.deleteLesson(lessonId).then((response) => {
+          Swal.fire("", "Xóa bài học thành công", "success");
+          console.log(response);
+        }).catch((e) => {
+          console.log(e);
+          this.commonConfirmError("Xóa bài học thất bại!")
+        }).finally(() => {
+          this.commonLoadingPage(false);
+        })
+      }, () => {
+
+      })
     },
-  },
-  mounted() {
-    this.myModal = bootstrap.Modal.getOrCreateInstance(this.$refs.modalShow);
   },
   created() {
     this.course_id = this.$route.params.course_id;
@@ -339,12 +289,8 @@ export default {
     // Laays danh sasch bai hoc
     this.getlesson(this.course_id).then((response) => {
       if (Array.isArray(response) && response.length > 0) {
-        const chapterformat = formatLessonstoChapters(response);
-        this.chapters = chapterformat;
-        // console.log(chapterformat);
-        this.chapters[0].isVisible = true;
+        console.log("Lấy dữ liệu thành công");
       } else {
-        this.ishavelesson = false;
         // Xử lý trường hợp không có dữ liệu hoặc dữ liệu không hợp lệ
         console.error("Dữ liệu không hợp lệ hoặc không có dữ liệu.");
       }
