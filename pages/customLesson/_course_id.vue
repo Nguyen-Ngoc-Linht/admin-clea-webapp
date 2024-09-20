@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100 customLesson">
+  <div class="w-100 customLesson" style="min-height: 100vh">
     <div class="container">
       <!-- Header Nav -->
       <div class="row">

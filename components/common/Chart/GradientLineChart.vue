@@ -3,7 +3,6 @@
     <LineChart
       :chart-data="doughChartData"
       :chart-options="doughChartOptions"
-      height="280px"
     />
   </client-only>
 </template>

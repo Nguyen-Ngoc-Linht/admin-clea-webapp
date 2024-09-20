@@ -77,9 +77,41 @@ const formatPosts = (data) => {
   return formattedPosts.reverse();
 };
 
+// Chuyển dữ liệu khóa học về đúng định dạng
+const formatCourseUser = (data) => {
+  const formattedCourseUser = data.map((item) => ({
+    id: item.course.course_id,
+    user_id: item.course.user_id,
+    time_in: formatDate(item.course.time_in),
+    name: item.details_course.name,
+    urlImage: `${process.env.baseUrl}${item.details_course.urlImage}`,
+    nbmembers: item.details_course.nbmembers,
+    price: item.details_course.price,
+    teacherId: item.details_course.teacherId,
+    title: item.details_course.title,
+  }));
+
+  return formattedCourseUser;
+}
+
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+
+  // Lấy ngày, tháng, năm từ đối tượng Date
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0, nên cộng 1
+  const year = date.getFullYear();
+
+  // Kết hợp lại thành định dạng DD-MM-YYYY
+  return `${day}-${month}-${year}`;
+}
+
 export {
   formatLessons,
   formatLessonstoChapters,
   formatListComments,
   formatPosts,
+  formatCourseUser,
+  formatDate
 };

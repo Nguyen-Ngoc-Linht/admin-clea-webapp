@@ -77,52 +77,12 @@
                       }}</span>
                     </td>
                     <td class="align-middle text-center">
-<!--                      <div class="dropstart float-lg-center ms-auto">-->
-<!--                        <a-->
-<!--                          href="javascript:;"-->
-<!--                          class="cursor-pointer"-->
-<!--                          id="dropdownTable2"-->
-<!--                          data-bs-toggle="dropdown"-->
-<!--                          aria-expanded="false"-->
-<!--                        >-->
-<!--                          <i class="material-icons text-secondary text-sm">-->
-<!--                            ...-->
-<!--                          </i>-->
-<!--                        </a>-->
-<!--                        <ul-->
-<!--                          class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5"-->
-<!--                          aria-labelledby="dropdownTable2"-->
-<!--                          style=""-->
-<!--                        >-->
-<!--                          <li>-->
-<!--                            <span-->
-<!--                              class="dropdown-item border-radius-md"-->
-<!--                              href="javascript:;"-->
-<!--                              >Set Quyền</span-->
-<!--                            >-->
-<!--                          </li>-->
-<!--                          <li>-->
-<!--                            <a-->
-<!--                              class="dropdown-item border-radius-md"-->
-<!--                              href="javascript:;"-->
-<!--                              >Chặn tài khoản</a-->
-<!--                            >-->
-<!--                          </li>-->
-<!--                          <li>-->
-<!--                            <a-->
-<!--                              class="dropdown-item border-radius-md"-->
-<!--                              href="javascript:;"-->
-<!--                              >Đóng tài khoản</a-->
-<!--                            >-->
-<!--                          </li>-->
-<!--                        </ul>-->
-<!--                      </div>-->
                       <div
                         class="d-flex align-items-center justify-content-center"
                       >
                         <button
                           class="btn text-secondary font-weight-bold text-xs mb-0"
-                          @click="nativeAccount(item.id)"
+                          @click="nativeAccount(item._id)"
                         >
                           Chi tiết
                         </button>

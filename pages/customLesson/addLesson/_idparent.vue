@@ -12,14 +12,14 @@
               to="/courses"
               style="text-decoration: none; font-style: italic"
               class="text-dark text-weight-bolder me-2"
-              >Quản lý khóa học
+            >Quản lý khóa học
             </NuxtLink>
             /
             <span
               class="text-weight-bolder mb-0 ms-2 me-2 cursor-pointer"
               style="text-decoration: none; font-style: italic"
               @click="backCourse"
-              >{{ course.name }}</span
+            >{{ course.name }}</span
             >
             /
             <span
@@ -116,8 +116,6 @@
                     class="form-check-input"
                     type="checkbox"
                     id="flexSwitchCheckDefault23"
-                    checked=""
-                    onchange="visible()"
                   />
                 </div>
               </div>
@@ -133,7 +131,7 @@
 
               <!-- Video -->
               <div v-if="tabCategory === 1" class="card-body pt-1">
-                <form action="" class="text-start" @submit.prevent="addLesson">
+                <div class="text-start">
                   <div class="row">
                     <div class="col-6">
                       <label for="">Tên bài</label>
@@ -180,23 +178,7 @@
                         />
                       </div>
                     </div>
-                    <div class="col-6">
-                      <label for="">Link Video</label>
-                      <div class="">
-                        <input
-                          v-model="linkVideoLesson"
-                          id="linkvideo"
-                          type="text"
-                          class="form-control"
-                          name="linkVideo"
-                          placeholder="Đường dẫn bài học của bạn"
-                          isRequired="false"
-                        />
-                      </div>
-                    </div>
-                  </div>
 
-                  <div class="row mt-3">
                     <div class="col-6">
                       <label for="">Chương</label>
                       <div class="">
@@ -207,8 +189,48 @@
                           class="form-control"
                           name="chapter"
                           placeholder="Tên chương"
-                          isRequired="false"
                         />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-3">
+                    <div class="col-6">
+                      <div class="d-flex align-items-center mb-2">
+                        <label for="" class="mb-0">Video Link </label>
+                        <div class="form-check form-switch ms-2 my-auto is-filled">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="flexSwitchCheckDefault23"
+                            @change="changValue"
+                          />
+                        </div>
+                      </div>
+                      <div v-if="isUpVideo" class="">
+                        <input
+                          v-model="linkVideoLesson"
+                          id="linkvideo"
+                          type="text"
+                          class="form-control"
+                          name="linkVideo"
+                          placeholder="Đường dẫn bài học của bạn"
+                        />
+                      </div>
+                      <div v-else class="">
+                        <input type="file" accept="video/*" class="d-none" id="videoLesson" @input="changeVideo">
+                        <label for="videoLesson" class="form-control mb-0 mx-0 cursor-pointer d-flex justify-content-between">
+                          {{videoName}}
+                        </label>
+                        <div v-if="defaultChangeVideo" class="d-flex">
+                          <video
+                            :src="videoUrl"
+                            class="rounded w-80 border-radius-xl mt-2"
+                            style="aspect-ratio: 16 / 9"
+                            controls
+                          />
+                          <button @click="upVideoServer" class="btn bg-gradient-info h-100 ms-3 mt-2">UpVideo</button>
+                        </div>
                       </div>
                     </div>
 
@@ -241,19 +263,19 @@
                       </label>
 
                       <label for="imageLesson" class="btn btn-sm"
-                        >Tải ảnh lên</label
+                      >Tải ảnh lên</label
                       >
                     </div>
                   </div>
 
                   <div class="row mt-3">
                     <div class="col-4">
-                      <button type="submit" class="btn bg-gradient-primary">
+                      <button @click="commitAddLesson" class="btn bg-gradient-primary">
                         Tạo bài giảng
                       </button>
                     </div>
                   </div>
-                </form>
+                </div>
               </div>
 
               <!-- Livestream -->
@@ -267,8 +289,9 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import {mapActions} from "vuex";
 import {getUserInfo} from "@/utils/cookieAuthen";
+
 export default {
   layout: "empty",
   data() {
@@ -287,6 +310,12 @@ export default {
       fileImage: null,
       srcImage: "",
       defaultChangeImage: false,
+      //
+      isUpVideo: true,
+      videoName: "Tải video của bạn lên",
+      fileVideo: null,
+      defaultChangeVideo: false,
+      videoUrl: "",
     };
   },
   methods: {
@@ -299,7 +328,16 @@ export default {
     ...mapActions("lesson", {
       createLesson: "createLesson",
     }),
-
+    changValue() {
+      this.isUpVideo = !this.isUpVideo;
+    },
+    async upVideoServer() {
+      this.commonConfirm("Bạn có chắc chắn muốn tải video lên hệ thống hay không! Quá trình này sẽ mất thời gian", () => {
+        const formData = new FormData();
+        formData.append("video", this.fileVideo);
+      }, () => {
+      })
+    },
     changeImage(event) {
       const file = event.target.files[0];
       this.fileImage = file;
@@ -314,7 +352,25 @@ export default {
         reader.readAsDataURL(file);
       }
     },
+    changeVideo(event) {
+      const file = event.target.files[0];
 
+      if(file) {
+        this.defaultChangeVideo = true;
+        this.fileVideo = file;
+        this.videoName = file.name;
+        this.videoUrl = URL.createObjectURL(file);
+        // this.videoUrl = "http://localhost:3030/video/videos/videoplayback.mp4"
+
+        event.target.value = "";
+      }
+    },
+    commitAddLesson() {
+      this.commonConfirm("Bạn có chắc chắn muốn tạo bài học mới này hay không", () => {
+        this.addLesson()
+      }, () => {
+      });
+    },
     async addLesson() {
       this.commonLoadingPage(true);
 
@@ -336,7 +392,7 @@ export default {
 
       console.log(body);
 
-      this.createLesson({ body: body, course_id: this.course_id }).then(
+      this.createLesson({body: body, course_id: this.course_id}).then(
         (response) => {
           console.log("Data tra ve", response);
           this.commonConfirmOK("Tạo bài giảng thành công!", () => {

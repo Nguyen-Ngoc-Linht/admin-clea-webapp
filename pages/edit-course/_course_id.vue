@@ -145,15 +145,18 @@
                   <div class="col-12 col-lg-6">
                     <label for="" class="text-lg">Giáo viên</label>
                     <div class="">
-                      <input
-                        v-model="teacherName"
-                        id="teacherName"
-                        type="text"
-                        class="form-control"
-                        name="teacherName"
-                        placeholder="User1"
-                        isRequired="false"
-                      />
+<!--                      <input-->
+<!--                        v-model="teacherName"-->
+<!--                        id="teacherName"-->
+<!--                        type="text"-->
+<!--                        class="form-control"-->
+<!--                        name="teacherName"-->
+<!--                        placeholder="User1"-->
+<!--                        isRequired="false"-->
+<!--                      />-->
+                      <select v-model="teacherName" class="form-control" name="choices-button" id="choices-button">
+                        <option v-for="item of teacher" :value="item._id">{{ item.name }}</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -227,6 +230,7 @@ export default {
       teacherName: "",
       category: "",
       isupdatecourse: true,
+      teacher: [],
       //
       isCreated: false,
       //Image
@@ -243,6 +247,9 @@ export default {
     }),
     ...mapActions("upload", {
       uploadImage: "uploadImage",
+    }),
+    ...mapActions("user", {
+      getListTeacher: "getListTeacher",
     }),
     backCourse() {
       if(this.isCreated) {
@@ -269,7 +276,7 @@ export default {
       const body = {
         name: this.name,
         title: this.title,
-        teacherId: "66cd3afaa52089f1590b86b1",
+        teacherId: this.teacherName,
         teacherName: this.teacherName,
         category: this.category,
         price: this.price,
@@ -307,6 +314,11 @@ export default {
         });
       }
     },
+    initData() {
+      this.getListTeacher().then(res => {
+        this.teacher = res;
+      })
+    }
   },
   created() {
     this.user = JSON.parse(getUserInfo());
@@ -320,7 +332,7 @@ export default {
           this.linkImage = `${process.env.baseUrl}${this.course.urlImage}`;
           this.name = res.name;
           this.title = res.title;
-          this.teacherName = res.teacherName;
+          this.teacherName = res.teacherId;
           this.description = res.description;
           this.price = res.price;
           this.category = res.category;
@@ -330,6 +342,8 @@ export default {
       this.isCreated = true;
       this.isupdatecourse = false;
     }
+
+    this.initData();
   },
 };
 </script>

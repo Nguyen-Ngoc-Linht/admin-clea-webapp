@@ -39,7 +39,15 @@
         </label>
         <button class="btn" @click="submitFile">Luuw</button>
       </div>
+
+      <button @click="notifycation" class="btn">Xoas</button>
     </div>
+
+    <div>
+      <div ref="chart" style="width: 600px; height: 400px;"></div>
+    </div>
+
+    <notifications group="foo" />
   </div>
 </template>
 
@@ -71,12 +79,43 @@ export default {
       this.imageSrc = null;
       this.$refs.ImageFile.value = "";
     },
-
+    notifycation() {
+      console.log("Hahaha");
+      this.$notify({
+        group: 'foo',
+        title: 'Important message',
+        text: 'Hello user! This is a notification!'
+      });
+    },
     submitFile() {
       this.uploadImage(this.fileImage).then((response) => {
         console.log(response);
       });
     },
+    initChart() {
+      const chart = this.$echarts.init(this.$refs.chart);
+      const option = {
+        title: {
+          text: 'ECharts Example'
+        },
+        tooltip: {},
+        xAxis: {
+          data: ['A', 'B', 'C', 'D', 'E', 'F']
+        },
+        yAxis: {},
+        series: [
+          {
+            name: 'Series1',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20]
+          }
+        ]
+      };
+      chart.setOption(option);
+    }
+  },
+  mounted() {
+    this.initChart();
   },
 };
 </script>

@@ -6,7 +6,14 @@ const actions = {
   async setShowSidebar({ commit, state }, payload) {
     try {
       let sidenav_show = document.querySelector("#appLayout");
-      if(state.isPinned) {
+      // console.log(sidenav_show);
+
+      if (!sidenav_show) {
+        console.error("Element with ID 'appLayout' not found.");
+        return;
+      }
+
+      if (state.isPinned) {
         sidenav_show.classList.add("g-sidenav-hidden");
         sidenav_show.classList.remove("g-sidenav-pinned");
         commit(SET_PINNED, false);

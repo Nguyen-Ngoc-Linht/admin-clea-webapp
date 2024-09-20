@@ -69,7 +69,12 @@ const actions = {
 
   async getUser({ commit, state }, userId) {
     try {
-      let { data } = await this.$axios.get(`${USERSAPI.GETUSER}/${userId}`);
+      const token = getAccessToken();
+      let { data } = await this.$axios.get(`${USERSAPI.GETUSER}/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (data.status === CONSTANTS.SUCCESS) {
         return data.data;
       }
@@ -121,6 +126,18 @@ const actions = {
       }
     } catch (err) {
       console.log(err);
+    }
+  },
+
+  async getListTeacher({ commit, state}) {
+    try {
+      let {data} = await this.$axios.get(USERSAPI.GET_TEACHER);
+
+      if(data.status === CONSTANTS.SUCCESS) {
+        return data.data;
+      }
+    } catch (e) {
+      console.log(e);
     }
   },
 

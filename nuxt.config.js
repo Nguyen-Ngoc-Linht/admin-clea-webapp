@@ -48,6 +48,8 @@ export default {
     { src: "~/plugins/axios.js", ssr: false },
     { src: "~/plugins/chart.js", ssr: false },
     { src: "~/plugins/global_alert.js"},
+    { src: "~/plugins/vue-notification.js", ssr: false },
+    { src: '~/plugins/echart.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
